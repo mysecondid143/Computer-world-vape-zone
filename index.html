@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer World Barlekha - Computer & Vape Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandPrimary: '#0f172a',
+                        brandAccent: '#2563eb',
+                        brandGold: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+        .tabContent { animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/95 z-50 flex items-center justify-center flex-col gap-3 transition-opacity duration-300">
+        <div class="w-12 h-12 border-4 border-brandAccent border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-brandAccent font-semibold text-lg">Computer World Data Loading...</p>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-brandPrimary text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-brandAccent rounded-lg flex items-center justify-center font-bold text-xl text-white">
+                    <i class="fa-solid fa-laptop"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold leading-tight">Computer World</h1>
+                    <p class="text-xs text-blue-300">Barlekha, Moulvibazar</p>
+                </div>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#home" class="hover:text-brandGold transition">Home</a>
+                <a href="#products" class="hover:text-brandGold transition">Products</a>
+                <a href="#contact" class="hover:text-brandGold transition">Contact Us</a>
+            </nav>
+
+            <button onclick="toggleAdminModal()" class="bg-brandAccent hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow flex items-center gap-2 transition">
+                <i class="fa-solid fa-user-gear"></i> Admin Panel
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section -->
+        <section id="home" class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-12 md:py-20 px-4">
+            <div class="max-w-5xl mx-auto text-center space-y-4">
+                <span class="bg-brandAccent/20 text-blue-400 border border-brandAccent/40 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Welcome to Computer World</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">Best Computer Accessories & Vape Store in Barlekha</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
+                    Apnar proyojonio Computer Parts, Accessories ebong Premium Vapes paowa jacche shorbochho shashroyi müllye!
+                </p>
+                <div class="pt-2">
+                    <a href="#products" class="bg-brandAccent hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition inline-block">
+                        <i class="fa-solid fa-cart-shopping mr-2"></i> Browse Products
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="py-12 bg-gray-100 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl md:text-3xl font-bold text-brandPrimary">Our Available Products</h3>
+                    <div class="w-16 h-1 bg-brandAccent mx-auto mt-2 rounded-full"></div>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                    <button onclick="filterCategory('all')" class="catBtn active bg-brandAccent text-white px-4 py-1.5 rounded-full text-xs font-bold shadow">All</button>
+                    <button onclick="filterCategory('computer')" class="catBtn bg-white text-gray-700 hover:bg-gray-200 px-4 py-1.5 rounded-full text-xs font-bold shadow">Computer</button>
+                    <button onclick="filterCategory('vape')" class="catBtn bg-white text-gray-700 hover:bg-gray-200 px-4 py-1.5 rounded-full text-xs font-bold shadow">Vape & Flavors</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-12 bg-white px-4">
+            <div class="max-w-4xl mx-auto text-center space-y-4">
+                <h3 class="text-2xl font-bold text-brandPrimary">Contact & Location</h3>
+                <p class="text-gray-600 text-sm">Computer World, Barlekha Town, Moulvibazar</p>
+                <div class="flex justify-center gap-4 text-sm font-bold pt-2">
+                    <a href="tel:01700000000" class="bg-gray-100 text-brandPrimary px-4 py-2 rounded-lg border hover:bg-gray-200"><i class="fa-solid fa-phone mr-1 text-green-600"></i> Call Us</a>
+                    <a href="https://wa.me/8801700000000" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brandPrimary text-gray-400 py-6 text-center text-xs border-t border-slate-800">
+        <p>&copy; 2026 Computer World Barlekha. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+            <button onclick="toggleAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-blue-100 text-brandAccent rounded-full flex items-center justify-center mx-auto mb-2 text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-800">Admin Login</h4>
+                <p class="text-xs text-gray-500">Enter password to access product CMS</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="adminPassword" placeholder="Enter Admin Password" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-brandAccent outline-none">
+                    <p id="loginError" class="text-xs text-red-500 mt-1 hidden">Incorrect Password!</p>
+                </div>
+                <button type="submit" class="w-full bg-brandAccent hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin CMS Modal -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-2 md:p-6 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            
+            <div class="bg-brandPrimary text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-stacked text-brandGold"></i>
+                    <h3 class="font-bold text-lg">Product Management Panel</h3>
+                </div>
+                <button onclick="closeAdminDashboard()" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+
+            <div class="flex-grow p-6 overflow-y-auto space-y-6">
+                
+                <!-- Add/Edit Product Form -->
+                <div class="bg-gray-50 p-4 border rounded-xl space-y-3">
+                    <h5 id="formTitle" class="font-bold text-brandPrimary text-md"><i class="fa-solid fa-plus text-brandAccent mr-1"></i> Add New Product</h5>
+                    <input type="hidden" id="editIndex" value="-1">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Product Title *</label>
+                            <input type="text" id="pTitle" placeholder="e.g. RGB Vape Kit / Wireless Mouse" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Price (BDT) *</label>
+                            <input type="number" id="pPrice" placeholder="e.g. 2500" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Category *</label>
+                            <select id="pCategory" class="w-full border rounded-lg p-2 text-sm bg-white">
+                                <option value="computer">Computer</option>
+                                <option value="vape">Vape & Flavors</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Product Image (Select File)</label>
+                        <input type="file" id="pPhotoFile" accept="image/*" class="w-full text-xs text-gray-500 border rounded-lg p-1.5 bg-white">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="saveProduct()" class="bg-brandAccent text-white font-bold px-4 py-2 rounded-lg text-xs"><i class="fa-solid fa-check mr-1"></i> Save Product</button>
+                        <button onclick="resetForm()" class="bg-gray-400 text-white font-bold px-4 py-2 rounded-lg text-xs">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Product Inventory Table -->
+                <div>
+                    <h5 class="font-bold text-gray-800 text-md mb-2">Current Inventory</h5>
+                    <div id="adminProductList" class="divide-y divide-gray-200 border rounded-xl bg-white overflow-hidden"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        const ADMIN_PASS = "mazed123";
+        const FIREBASE_DB_URL = "https://durbarmukhtoopenscout-77f4d-default-rtdb.firebaseio.com/computerWorldData.json";
+
+        let appData = {
+            products: [
+                { id: 1, title: "Gaming RGB Mouse", price: "850", category: "computer", photo: "https://via.placeholder.com/200?text=Mouse" },
+                { id: 2, title: "Smok Nord Vape Kit", price: "3200", category: "vape", photo: "https://via.placeholder.com/200?text=Vape+Kit" }
+            ]
+        };
+
+        async function loadData() {
+            try {
+                const response = await fetch(FIREBASE_DB_URL);
+                if (response.ok) {
+                    const resData = await response.json();
+                    if (resData && resData.products) {
+                        appData = resData;
+                    } else {
+                        await saveData();
+                    }
+                }
+            } catch (e) {
+                console.error("Firebase Read Error:", e);
+            } finally {
+                renderUI();
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+        }
+
+        async function saveData() {
+            try {
+                await fetch(FIREBASE_DB_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appData)
+                });
+            } catch(e) {
+                console.error("Firebase Save Error:", e);
+            }
+        }
+
+        function renderUI(categoryFilter = 'all') {
+            const grid = document.getElementById('productGrid');
+            const items = (appData.products || []).filter(p => categoryFilter === 'all' || p.category === categoryFilter);
+
+            grid.innerHTML = items.map(p => `
+                <div class="bg-white rounded-2xl border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+                    <img src="${p.photo || 'https://via.placeholder.com/200'}" class="w-full h-48 object-cover">
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase bg-blue-50 text-brandAccent px-2 py-0.5 rounded">${p.category}</span>
+                            <h4 class="font-bold text-gray-800 text-base mt-1">${p.title}</h4>
+                            <p class="text-brandAccent font-extrabold text-lg">৳ ${p.price}</p>
+                        </div>
+                        <a href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20buy%20${encodeURIComponent(p.title)}" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-xl text-xs text-center flex items-center justify-center gap-1.5 transition">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.catBtn').forEach(b => b.classList.remove('bg-brandAccent', 'text-white'));
+            renderUI(cat);
+        }
+
+        function toggleAdminModal() { document.getElementById('adminAuthModal').classList.toggle('hidden'); }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            if (document.getElementById('adminPassword').value === ADMIN_PASS) {
+                document.getElementById('adminAuthModal').classList.add('hidden');
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('loginError').classList.add('hidden');
+                document.getElementById('adminDashboardModal').classList.remove('hidden');
+                populateAdminList();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
+
+        function populateAdminList() {
+            const list = document.getElementById('adminProductList');
+            list.innerHTML = (appData.products || []).map((p, idx) => `
+                <div class="p-3 flex items-center justify-between hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.photo}" class="w-12 h-12 rounded object-cover border">
+                        <div>
+                            <p class="font-bold text-sm text-gray-800">${p.title}</p>
+                            <p class="text-xs text-brandAccent font-semibold">৳ ${p.price} | Category: ${p.category}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editProduct(${idx})" class="bg-blue-600 text-white text-xs px-2.5 py-1 rounded font-bold"><i class="fa-solid fa-pen"></i> Edit</button>
+                        <button onclick="deleteProduct(${idx})" class="bg-red-600 text-white text-xs px-2.5 py-1 rounded font-bold"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveProduct() {
+            const idx = parseInt(document.getElementById('editIndex').value);
+            const title = document.getElementById('pTitle').value.trim();
+            const price = document.getElementById('pPrice').value.trim();
+            const category = document.getElementById('pCategory').value;
+            const photoFile = document.getElementById('pPhotoFile').files;
+
+            if (!title || !price) {
+                alert("Please enter title and price!");
+                return;
+            }
+
+            if (!appData.products) appData.products = [];
+
+            let photo = idx >= 0 ? appData.products[idx].photo : "https://via.placeholder.com/200";
+            if (photoFile.length > 0) {
+                photo = await readFileAsBase64(photoFile[0]);
+            }
+
+            const pObj = { id: Date.now(), title, price, category, photo };
+
+            if (idx >= 0) appData.products[idx] = pObj;
+            else appData.products.push(pObj);
+
+            await saveData();
+            renderUI();
+            populateAdminList();
+            resetForm();
+            alert("Product saved successfully!");
+        }
+
+        function editProduct(idx) {
+            const p = appData.products[idx];
+            document.getElementById('editIndex').value = idx;
+            document.getElementById('pTitle').value = p.title;
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pCategory').value = p.category;
+            document.getElementById('formTitle').innerText = "Edit Product (" + p.title + ")";
+        }
+
+        function resetForm() {
+            document.getElementById('editIndex').value = "-1";
+            document.getElementById('pTitle').value = "";
+            document.getElementById('pPrice').value = "";
+            document.getElementById('pPhotoFile').value = "";
+            document.getElementById('formTitle').innerText = "Add New Product";
+        }
+
+        async function deleteProduct(idx) {
+            if (confirm("Delete this product?")) {
+                appData.products.splice(idx, 1);
+                await saveData();
+                renderUI();
+                populateAdminList();
+            }
+        }
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
